@@ -857,7 +857,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{
     <div class="hero-badge">Phim thịnh hành #1 hôm nay</div>
     <h1 class="hero-title">VÙNG TỐI<br>KÝ ỨC</h1>
     <div class="hero-meta">
-      <div class="imdb-pill">⭐ IMDb 8.9</div>
+      <div class="imdb-pill">Giao diện minh họa</div>
       <span class="dot-sep"></span>
       <span>2026</span>
       <span class="dot-sep"></span>
@@ -912,7 +912,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{
 <!-- ============ TOP IMDB ============ -->
 <section class="section">
   <div class="section-head">
-    <div class="section-title"><span class="num">03</span>⭐ Top IMDb</div>
+    <div class="section-title"><span class="num">03</span>Bộ sưu tập minh họa</div>
     <a href="#" class="see-all">Xem tất cả →</a>
   </div>
   <div class="row-wrap">
@@ -944,7 +944,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{
         <div class="eyebrow">Chi tiết phim</div>
         <h1 class="detail-title">Vùng Tối Ký Ức</h1>
         <div class="detail-stats">
-          <div class="stat-chip imdb">⭐ IMDb <span class="val">8.9/10</span></div>
+          <div class="stat-chip imdb">Dữ liệu minh họa</div>
           <div class="stat-chip rt">🍅 Rotten Tomatoes <span class="val">94%</span></div>
         </div>
         <div class="detail-tags">
@@ -1075,12 +1075,11 @@ function movieCard(i){
   const t = titles[i % titles.length];
   const p = posters[i % posters.length];
   const d = descs[i % descs.length];
-  const imdb = (rand(72,98)/10).toFixed(1);
   const year = rand(2022,2026);
   return `<div class="card">
     <div class="poster-wrap">
       <div class="poster-badges">
-        <span class="badge-imdb">⭐ ${imdb}</span>
+        <span class="badge-imdb">DEMO</span>
         <span class="badge-hd">HD</span>
       </div>
       <img src="${p}" alt="${t}" loading="lazy">
