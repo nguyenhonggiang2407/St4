@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REEL — Xem phim trực tuyến</title>
+<title>REEL — Giao diện duyệt phim mẫu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -107,18 +107,6 @@ a:focus-visible, button:focus-visible, input:focus-visible{
 }
 .skip-link:focus{ top:12px; }
 
-/* ============ Loading skeleton shimmer ============ */
-.skeleton{
-  background:linear-gradient(100deg, var(--card) 30%, var(--card-hi) 45%, var(--card) 60%);
-  background-size:250% 100%;
-  animation:shimmer 1.6s ease-in-out infinite;
-  border-radius:var(--radius-m);
-}
-@keyframes shimmer{
-  0%{ background-position:200% 0; }
-  100%{ background-position:-50% 0; }
-}
-
 /* ============================================
    NAVBAR
    ============================================ */
@@ -172,14 +160,26 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   transition:background 0.2s var(--ease), color 0.2s var(--ease);
 }
 .icon-btn:hover{ background:rgba(255,255,255,0.08); color:var(--ink); }
-.search-wrap{ position:relative; display:flex; align-items:center; }
-.search-input{
-  width:0; opacity:0; padding:9px 0; margin-right:0;
-  background:var(--card); border:1px solid var(--line);
-  border-radius:20px; color:var(--ink); font-size:13.5px;
-  transition:width 0.35s var(--ease), opacity 0.25s var(--ease), padding 0.35s var(--ease), margin 0.35s var(--ease);
+.search-dialog{
+  position:fixed; inset:0; margin:auto; width:min(480px,calc(100% - 32px));
+  max-height:min(620px,calc(100% - 32px)); padding:20px; overflow:auto;
+  color:var(--ink); background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius-l);
 }
-.search-wrap.open .search-input{ width:220px; opacity:1; padding:9px 16px; margin-right:8px; }
+.search-dialog::backdrop{ background:rgba(6,8,14,.78); }
+.search-heading{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.search-dialog label{ display:block; margin-top:12px; color:var(--ink-dim); font-size:14px; }
+.search-input{
+  display:block; width:100%; min-height:44px; margin:8px 0 12px; padding:10px 12px;
+  background:var(--bg); border:1px solid var(--ink-dim);
+  border-radius:var(--radius-m); color:var(--ink); font:inherit;
+}
+.search-status{ color:var(--ink-dim); font-size:14px; }
+.search-results{ list-style:none; margin-top:8px; }
+.search-results a{ display:flex; align-items:center; min-height:44px; padding:8px; border-bottom:1px solid var(--line); }
+.search-results a:hover{ background:var(--card-hi); }
+.card[id^="movie-"]{ scroll-margin-top:90px; }
+.card[id^="movie-"]:focus{ outline:2px solid var(--gold); outline-offset:-2px; }
 .avatar-ring{
   width:36px; height:36px; border-radius:50%;
   background:linear-gradient(135deg,var(--accent),var(--gold));
@@ -816,25 +816,33 @@ a:focus-visible, button:focus-visible, input:focus-visible{
     </ul>
   </div>
   <div class="nav-right">
-    <div class="search-wrap" id="searchWrap">
-      <input type="text" class="search-input" placeholder="Tìm tên phim, diễn viên, quốc gia..." aria-label="Tìm kiếm">
-      <button class="icon-btn" id="searchToggle" aria-label="Mở tìm kiếm">
+      <button class="icon-btn" id="searchToggle" type="button" aria-label="Mở tìm kiếm" aria-haspopup="dialog" aria-controls="searchDialog">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       </button>
-    </div>
     <a href="#profile" class="avatar-ring">
       <div class="av-fallback">N</div>
     </a>
   </div>
 </nav>
 
+<dialog class="search-dialog" id="searchDialog" aria-labelledby="searchHeading">
+  <div class="search-heading">
+    <h2 id="searchHeading">Tìm phim mẫu</h2>
+    <form method="dialog"><button class="icon-btn" aria-label="Đóng tìm kiếm">✕</button></form>
+  </div>
+  <label for="movieSearch">Tên phim</label>
+  <input type="search" id="movieSearch" class="search-input" placeholder="Ví dụ Vùng Tối" maxlength="80" autofocus>
+  <p class="search-status" id="searchStatus" role="status"></p>
+  <ul class="search-results" id="searchResults"></ul>
+</dialog>
+
 <main id="main">
 
 <!-- ============ DEMO INDEX ============ -->
 <section class="demo-index" id="top">
   <span class="mono" style="color:var(--accent);font-size:12px;font-weight:800;letter-spacing:0.1em;">GIAO DIỆN DEMO</span>
-  <h1>REEL — Nền tảng xem phim</h1>
-  <p>Bản dựng đầy đủ theo wireframe: Trang chủ, Chi tiết phim, Trình phát, Trang cá nhân. Cuộn xuống hoặc nhảy nhanh tới từng khu vực bên dưới.</p>
+  <h1>REEL — Giao diện duyệt phim mẫu</h1>
+  <p>Khám phá danh mục hư cấu, tìm theo tên phim và xem các màn chi tiết, trình phát minh họa, hồ sơ.</p>
   <div class="jump-grid">
     <a href="#hero" class="jump-link"><span>Banner nổi bật</span><span class="n">01</span></a>
     <a href="#trending" class="jump-link"><span>Thịnh hành</span><span class="n">02</span></a>
@@ -1069,14 +1077,12 @@ const posters = [
 const titles = ["Vùng Tối Ký Ức","Ánh Sáng Cuối Đường Hầm","Kẻ Săn Mồi Thầm Lặng","Thiên Đường Đã Mất","Bóng Ma Thành Phố","Ngày Không Có Nắng","Lời Thề Trong Sương","Đế Chế Sụp Đổ","Ranh Giới Cuối Cùng","Vực Sâu Ký Ức","Con Đường Không Lối Về","Giấc Mơ Bị Đánh Cắp"];
 const descs = ["Một cuộc rượt đuổi nghẹt thở xuyên qua ba châu lục.","Bí mật gia đình 20 năm bị phanh phui trong một đêm mưa.","Đặc vụ FBI đối đầu tổ chức tội phạm quốc tế.","Hai chị em đấu tranh giành lại di sản đã mất.","Thám tử già truy tìm kẻ giết người hàng loạt."];
 
-function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-
 function movieCard(i){
   const t = titles[i % titles.length];
   const p = posters[i % posters.length];
   const d = descs[i % descs.length];
-  const year = rand(2022,2026);
-  return `<div class="card">
+  const year = 2022 + (i % titles.length) % 5;
+  return `<div class="card" id="movie-${i}" tabindex="-1">
     <div class="poster-wrap">
       <div class="poster-badges">
         <span class="badge-imdb">DEMO</span>
@@ -1097,26 +1103,11 @@ function movieCard(i){
   </div>`;
 }
 
-function skeletonCard(){
-  return `<div class="card"><div class="poster-wrap skeleton"></div>
-    <div class="card-info">
-      <div class="skeleton" style="height:14px;width:80%;border-radius:4px;margin-bottom:6px;"></div>
-      <div class="skeleton" style="height:11px;width:50%;border-radius:4px;"></div>
-    </div></div>`;
-}
-
 const rowIds = ["row1","row2","row3"];
-rowIds.forEach(id => {
+rowIds.forEach((id, rowIdx) => {
   const el = document.getElementById(id);
-  el.innerHTML = Array.from({length:8}).map(skeletonCard).join("");
+  el.innerHTML = Array.from({length:10}).map((_,i)=>movieCard(i + rowIdx*10)).join("");
 });
-
-setTimeout(()=>{
-  rowIds.forEach((id, rowIdx) => {
-    const el = document.getElementById(id);
-    el.innerHTML = Array.from({length:10}).map((_,i)=>movieCard(i + rowIdx*10)).join("");
-  });
-}, 750);
 
 /* Genres */
 const genres = ["Hành động","Kinh dị","Hài","Anime","Hoạt hình","Marvel","DC","Hàn Quốc","Trung Quốc","Việt Nam"];
@@ -1159,12 +1150,62 @@ window.addEventListener("scroll", () => {
 
 backToTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
 
-/* Search toggle */
-const searchWrap = document.getElementById("searchWrap");
+/* Search the fictional catalog by title, including unaccented Vietnamese. */
 const searchToggle = document.getElementById("searchToggle");
+const searchDialog = document.getElementById("searchDialog");
+const movieSearch = document.getElementById("movieSearch");
+const searchResults = document.getElementById("searchResults");
+const searchStatus = document.getElementById("searchStatus");
+const normalizeSearch = value => value.toLocaleLowerCase("vi").normalize("NFD")
+  .replace(/\p{M}/gu, "").replace(/đ/g, "d").trim();
+let searchDestination = null;
+
+function showSearchResults() {
+  const query = normalizeSearch(movieSearch.value);
+  searchResults.replaceChildren();
+  if (!query) {
+    searchStatus.textContent = "Nhập tên để tìm trong danh mục mẫu.";
+    return;
+  }
+  const matches = titles.map((title, index) => ({title, index}))
+    .filter(({title}) => normalizeSearch(title).includes(query));
+  searchStatus.textContent = matches.length ? `${matches.length} phim phù hợp.` : "Không tìm thấy phim phù hợp.";
+  for (const {title, index} of matches) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `#movie-${index}`;
+    link.textContent = title;
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      searchDestination = document.getElementById(`movie-${index}`);
+      searchDialog.close();
+    });
+    item.append(link);
+    searchResults.append(item);
+  }
+}
+
 searchToggle.addEventListener("click", () => {
-  searchWrap.classList.toggle("open");
-  if(searchWrap.classList.contains("open")) searchWrap.querySelector("input").focus();
+  movieSearch.value = "";
+  showSearchResults();
+  searchDialog.showModal();
+});
+movieSearch.addEventListener("input", showSearchResults);
+movieSearch.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    event.preventDefault();
+    searchDialog.close();
+  }
+});
+searchDialog.addEventListener("close", () => {
+  const destination = searchDestination;
+  searchDestination = null;
+  if (destination) {
+    destination.scrollIntoView({block:"center", inline:"center"});
+    destination.focus({preventScroll:true});
+  } else {
+    searchToggle.focus();
+  }
 });
 
 /* Row scroll arrows */
